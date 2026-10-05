@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0b3d33">
+<title>Property Details</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#edf3f0; --card:#ffffff; --ink:#10302a; --muted:#62786f; --line:#d5e2dc;
+  --deep:#0b3d33; --deep2:#116652; --gold:#f2b134; --goldink:#3a2a00; --sel:#e3f4ec; --wa:#25d366;
+  --r:20px;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){--bg:#0a1613;--card:#12231e;--ink:#e6f2ed;--muted:#93aaa2;--line:#254039;--sel:#17372e}
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:"DM Sans",system-ui,-apple-system,"Segoe UI",Arial,sans-serif;
+  padding-bottom:calc(150px + env(safe-area-inset-bottom,0px))}
+h1,h2,h3{font-family:"Bricolage Grotesque","DM Sans",system-ui,sans-serif;margin:0}
+.wrap{max-width:560px;margin:0 auto;padding:0 16px}
+
+/* hero */
+.hero{position:relative;overflow:hidden;color:#fff;padding:calc(28px + env(safe-area-inset-top,0px)) 0 74px;
+  background:radial-gradient(120% 90% at 85% 0%,#1a8a6f 0%,transparent 55%),linear-gradient(160deg,var(--deep),#072a23)}
+.brand{display:inline-flex;align-items:center;gap:8px;font-weight:700;font-size:14px;background:rgba(255,255,255,.12);
+  padding:7px 14px;border-radius:99px;backdrop-filter:blur(6px)}
+.brand i{width:8px;height:8px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 4px rgba(242,177,52,.25)}
+.hero h1{font-size:clamp(36px,10vw,50px);line-height:1.02;font-weight:800;margin:18px 0 10px;letter-spacing:-.02em}
+.hero p{margin:0;font-size:17px;line-height:1.45;max-width:30ch;opacity:.92}
+.sky{position:absolute;left:0;right:0;bottom:-1px;width:100%;height:70px;display:block}
+.refpill{display:inline-block;margin-top:16px;font-size:13px;padding:6px 12px;border-radius:10px;background:rgba(0,0,0,.25);font-variant-numeric:tabular-nums}
+
+/* sections */
+.sheet{margin-top:-30px;position:relative}
+.step{background:var(--card);border:1px solid var(--line);border-radius:26px;padding:20px 16px;margin-bottom:14px}
+.step h2{font-size:22px;margin:0 6px 4px}
+.step .sub{margin:0 6px 14px;color:var(--muted);font-size:15px}
+.search{position:relative;margin-bottom:12px}
+.search input{width:100%;font:inherit;font-size:16px;color:var(--ink);background:var(--bg);border:1px solid var(--line);
+  border-radius:16px;padding:14px 16px 14px 44px;outline:none}
+.search input:focus{border-color:var(--deep2);box-shadow:0 0 0 3px rgba(17,102,82,.18)}
+.search svg{position:absolute;left:15px;top:50%;transform:translateY(-50%);width:18px;height:18px;stroke:var(--muted);fill:none;stroke-width:2}
+
+/* area accordion */
+.area{border:1px solid var(--line);border-radius:var(--r);margin-bottom:10px;background:var(--card);overflow:hidden;transition:border-color .2s,background .2s}
+.area.open{border-color:var(--deep2);background:var(--sel)}
+.area>button{all:unset;box-sizing:border-box;display:flex;align-items:center;gap:12px;width:100%;padding:15px 16px;cursor:pointer}
+.area>button:focus-visible{outline:2px solid var(--deep2);outline-offset:-2px;border-radius:var(--r)}
+.pin{flex:none;width:38px;height:38px;border-radius:12px;display:grid;place-items:center;background:var(--sel);color:var(--deep2);font-weight:800;font-family:"Bricolage Grotesque",sans-serif}
+.area.open .pin{background:var(--deep2);color:#fff}
+.meta{flex:1;min-width:0}
+.meta b{display:block;font-size:18px;font-family:"Bricolage Grotesque","DM Sans",sans-serif;font-weight:600}
+.meta span{display:block;font-size:14px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.chev{flex:none;width:20px;height:20px;stroke:var(--muted);fill:none;stroke-width:2.2;transition:transform .25s}
+.area.open .chev{transform:rotate(180deg)}
+.drawer{display:grid;grid-template-rows:0fr;transition:grid-template-rows .28s ease}
+.area.open .drawer{grid-template-rows:1fr}
+.drawer>div{overflow:hidden}
+.chips{display:flex;flex-wrap:wrap;gap:8px;padding:0 16px 16px}
+.chip{font:inherit;font-size:15px;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:99px;padding:9px 15px;cursor:pointer;transition:all .15s}
+.chip:hover{border-color:var(--deep2)}
+.chip[aria-pressed="true"]{background:var(--deep2);border-color:var(--deep2);color:#fff}
+.chip:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.empty{display:none;text-align:center;color:var(--muted);padding:14px}
+
+/* option groups */
+.opts{display:flex;flex-wrap:wrap;gap:8px;margin:0 4px}
+.opts .chip{padding:11px 17px;font-size:16px}
+.opts .chip[aria-pressed="true"]{background:var(--gold);border-color:var(--gold);color:var(--goldink);font-weight:700}
+
+/* sticky bar */
+.bar{position:fixed;left:0;right:0;bottom:0;z-index:5;background:var(--card);border-top:1px solid var(--line);
+  padding:12px 16px calc(12px + env(safe-area-inset-bottom,0px));box-shadow:0 -10px 30px rgba(8,40,32,.12)}
+.bar .in{max-width:560px;margin:0 auto}
+.preview{font-size:14px;line-height:1.4;color:var(--muted);background:var(--bg);border-radius:14px;padding:10px 12px;margin-bottom:10px;max-height:64px;overflow:auto}
+.preview b{color:var(--ink)}
+.go{all:unset;box-sizing:border-box;display:flex;justify-content:center;align-items:center;gap:10px;width:100%;
+  font:700 17px "DM Sans",sans-serif;background:var(--wa);color:#04361a;padding:16px;border-radius:16px;cursor:pointer;transition:transform .1s,opacity .2s}
+.go:active{transform:scale(.98)}
+.go[disabled]{opacity:.45;cursor:not-allowed}
+.go:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.go svg{width:22px;height:22px;fill:currentColor}
+.foot{text-align:center;color:var(--muted);font-size:14px;margin:6px 0 20px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="brand"><i></i><span id="brandName"></span></div>
+    <h1>Find your place in Coimbatore</h1>
+    <p>Pick an area, tell us what you need, and we'll continue on WhatsApp.</p>
+    <div class="refpill" id="refPill" hidden></div>
+  </div>
+  <svg class="sky" viewBox="0 0 400 70" preserveAspectRatio="none" aria-hidden="true">
+    <path fill="var(--bg)" d="M0 70V48h18V30h14v18h10V38h12V22h16v26h12V34h10V14h18v34h14V40h12V26h14v22h10V36h14V18h16v30h12V42h14V30h12v18h14V38h12V24h14v24h10V40h14v30z"/>
+  </svg>
+</header>
+
+<main class="wrap sheet">
+
+  <section class="step">
+    <h2>Where are you looking?</h2>
+    <p class="sub">Open an area, then tap a nearby locality if you have one in mind.</p>
+    <label class="search">
+      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+      <input id="q" type="search" placeholder="Search area or locality" autocomplete="off" aria-label="Search area or locality">
+    </label>
+    <div id="areas"></div>
+    <div class="empty" id="empty">No match. Try another name.</div>
+  </section>
+
+  <section class="step">
+    <h2>What are you looking for?</h2>
+    <p class="sub">Optional. Tap again to clear.</p>
+    <div class="opts" id="types"></div>
+  </section>
+
+  <section class="step">
+    <h2>Your budget</h2>
+    <p class="sub">Optional. This helps us share the right options.</p>
+    <div class="opts" id="budgets"></div>
+  </section>
+
+  <p class="foot"><b id="brandFoot"></b> · Property enquiries across Coimbatore</p>
+</main>
+
+<div class="bar">
+  <div class="in">
+    <div class="preview" id="preview"></div>
+    <button class="go" id="go" disabled>
+      <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.3 14c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.3-.7-2.8-1.2-4.6-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.8s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.9 2.1c.1.2.1.4 0 .5l-.4.6c-.1.2-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.1 1 2.1 1.300 2.400 1.500.3.1.4.1.6-.1l.8-.9c.2-.3.4-.2.6-.1l2 1c.3.1.5.2.5.3.1.1.1.6-.1 1.200z"/></svg>
+      <span id="goText">Choose an area to continue</span>
+    </button>
+  </div>
+</div>
+
+<script>
+/* ===== EDIT THESE ===== */
+const CONFIG = {
+  businessName: "CoimbatoreVeedu Builders",
+  whatsappNumber: "919999999999",  // country code + number, digits only
+  fallbackRef: ""
+};
+const AREAS = [
+  {name:"Kalapatti",       near:["Cheran Nagar","Nehru Nagar West","Vasanth Nagar","SNS Kalvi Nagar","Vaiyapuri Nagar"]},
+  {name:"Saravanampatti",  near:["Sri Nagar","Janatha Nagar West","Vinayakapuram","Revenue Nagar","Keeranatham Road","Athipalayam Road"]},
+  {name:"Vadavalli",       near:["Linganoor","Veerakeralam Road","Kanuvai Road","P.N. Pudur","Vedapatti","Edayarpalayam"]},
+  {name:"Sulur",           near:["Kannampalayam","Irugur","Ravathur","Neelambur","Somanur"]},
+  {name:"Mettupalayam",    near:["Mettupalayam Town","Jadayampalayam","Bellapalayam","Marudur","Sirumugai","Thekkampatti"]},
+  {name:"Malumichampatti", near:["Chettipalayam","Settipalayam","Guruvayur Nagar","Ganesh Nagar","Raj Vijay Nagar"]},
+  {name:"Idigarai",        near:["Idigarai","Maniyakkarampalayam","Athipalayam","Kallipalayam","Keeranatham"]},
+  {name:"Keeranatham",     near:["Keeranatham Road","Athipalayam","Govindanaickenpalayam","Idigarai","Kurumbapalayam"]},
+  {name:"Thondamuthur",    near:["Devarayapuram","Thenkarai","Pooluvapatti","Narasipuram","Semmedu","Alandurai","Madampatti","Ikkarai Boluvampatti"]}
+];
+const TYPES   = ["Plots","Villas","Apartments","Independent houses","Commercial","Farmland"];
+const BUDGETS = ["Under 25 L","25 L – 50 L","50 L – 1 Cr","Above 1 Cr"];
+/* ====================== */
+
+const $ = id => document.getElementById(id);
+const state = {area:null, loc:null, type:null, budget:null};
+const ref = (new URLSearchParams(location.search).get("ref") || CONFIG.fallbackRef || "").trim();
+
+document.title = "Property Details | " + CONFIG.businessName;
+$("brandName").textContent = CONFIG.businessName;
+$("brandFoot").textContent = CONFIG.businessName;
+if (ref){ $("refPill").hidden = false; $("refPill").textContent = "Ref: " + ref; }
+
+/* build areas */
+const areasEl = $("areas");
+AREAS.forEach(a=>{
+  const el = document.createElement("div");
+  el.className = "area";
+  el.dataset.search = (a.name+" "+a.near.join(" ")).toLowerCase();
+  el.innerHTML =
+    '<button type="button" aria-expanded="false"><span class="pin"></span>'+
+    '<span class="meta"><b></b><span></span></span>'+
+    '<svg class="chev" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button>'+
+    '<div class="drawer"><div><div class="chips"></div></div></div>';
+  el.querySelector(".pin").textContent = a.name[0];
+  el.querySelector("b").textContent = a.name;
+  el.querySelector(".meta span").textContent = a.near.join(", ");
+  const chips = el.querySelector(".chips");
+  a.near.forEach(n=>{
+    const c = document.createElement("button");
+    c.type="button"; c.className="chip"; c.textContent=n; c.setAttribute("aria-pressed","false");
+    c.onclick = ()=>{
+      const on = !(state.area===a.name && state.loc===n);
+      state.area=a.name; state.loc = on ? n : null;
+      sync();
+    };
+    chips.appendChild(c);
+  });
+  el.querySelector(":scope>button").onclick = ()=>{
+    if (state.area===a.name){ state.area=null; state.loc=null; }
+    else { state.area=a.name; state.loc=null; }
+    sync();
+    if (state.area) setTimeout(()=>el.scrollIntoView({behavior:"smooth",block:"nearest"}),60);
+  };
+  el._a = a;
+  areasEl.appendChild(el);
+});
+
+/* option groups */
+function buildOpts(id, list, key){
+  list.forEach(v=>{
+    const c = document.createElement("button");
+    c.type="button"; c.className="chip"; c.textContent=v; c.setAttribute("aria-pressed","false");
+    c.onclick = ()=>{ state[key] = state[key]===v ? null : v; sync(); };
+    c.dataset.v = v; $(id).appendChild(c);
+  });
+}
+buildOpts("types", TYPES, "type");
+buildOpts("budgets", BUDGETS, "budget");
+
+/* search filter */
+$("q").addEventListener("input", e=>{
+  const t = e.target.value.trim().toLowerCase();
+  let n = 0;
+  [...areasEl.children].forEach(el=>{
+    const show = !t || el.dataset.search.includes(t);
+    el.style.display = show ? "" : "none"; if (show) n++;
+  });
+  $("empty").style.display = n ? "none" : "block";
+});
+
+function message(){
+  const place = state.loc && state.loc!==state.area ? state.loc+", "+state.area : state.area;
+  let m = "Hi, I need property details in " + place + ".";
+  if (state.type)   m += " Looking for: " + state.type + ".";
+  if (state.budget) m += " Budget: " + state.budget + ".";
+  if (ref)          m += " Ref: " + ref;
+  return m;
+}
+
+function sync(){
+  [...areasEl.children].forEach(el=>{
+    const open = el._a.name===state.area;
+    el.classList.toggle("open", open);
+    el.querySelector(":scope>button").setAttribute("aria-expanded", open);
+    el.querySelectorAll(".chip").forEach(c=>c.setAttribute("aria-pressed", open && c.textContent===state.loc));
+  });
+  document.querySelectorAll("#types .chip").forEach(c=>c.setAttribute("aria-pressed", c.dataset.v===state.type));
+  document.querySelectorAll("#budgets .chip").forEach(c=>c.setAttribute("aria-pressed", c.dataset.v===state.budget));
+  const ok = !!state.area;
+  $("go").disabled = !ok;
+  $("goText").textContent = ok ? "Continue on WhatsApp" : "Choose an area to continue";
+  $("preview").innerHTML = ok ? "<b>Your message:</b> " + message().replace(/</g,"&lt;")
+                              : "Your message will appear here as you choose.";
+}
+$("go").onclick = ()=>{
+  if (!state.area) return;
+  location.href = "https://api.whatsapp.com/send?phone="+CONFIG.whatsappNumber+"&text="+encodeURIComponent(message());
+};
+sync();
+</script>
+</body>
+</html>
